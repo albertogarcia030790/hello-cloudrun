@@ -10,10 +10,10 @@ steps:
         echo "Desplegando en proyecto $PROJECT_ID, región $REGION"
         # Construir y subir la imagen
         gcloud builds submit . \
-          --tag ${REGION}-docker.pkg.dev/${PROJECT_ID}/hello-repo/hello-cloudrun:latest
+          --tag $REGION-docker.pkg.dev/$PROJECT_ID/hello-repo/hello-cloudrun:latest
         # Desplegar en Cloud Run
         gcloud run deploy hello-cloudrun \
-          --image ${REGION}-docker.pkg.dev/${PROJECT_ID}/hello-repo/hello-cloudrun:latest \
+          --image $REGION-docker.pkg.dev/$PROJECT_ID/hello-repo/hello-cloudrun:latest \
           --region $REGION \
           --platform managed \
           --allow-unauthenticated
