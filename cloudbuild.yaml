@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    env:
+      - 'PROJECT_ID=extreme-cycling-463901-b3'
+      - 'REGION=us-central1'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Desplegando en proyecto $PROJECT_ID, región $REGION"
+        gcloud run deploy hello-cloudrun \
+          --image $REGION-docker.pkg.dev/$PROJECT_ID/hello-repo/hello-cloudrun:latest \
+          --region $REGION \
+          --platform managed \
+          --allow-unauthenticated
