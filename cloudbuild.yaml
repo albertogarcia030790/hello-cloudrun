@@ -1,20 +1,22 @@
 steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
     env:
       - 'PROJECT_ID=extreme-cycling-463901-b3'
       - 'REGION=us-central1'
-    entrypoint: 'bash'
     args:
       - '-c'
       - |
         echo "Desplegando en proyecto $PROJECT_ID, región $REGION"
+        # Construir y subir la imagen
+        gcloud builds submit . \
+          --tag ${REGION}-docker.pkg.dev/${PROJECT_ID}/hello-repo/hello-cloudrun:latest
+        # Desplegar en Cloud Run
         gcloud run deploy hello-cloudrun \
-          --image $REGION-docker.pkg.dev/$PROJECT_ID/hello-repo/hello-cloudrun:latest \
+          --image ${REGION}-docker.pkg.dev/${PROJECT_ID}/hello-repo/hello-cloudrun:latest \
           --region $REGION \
           --platform managed \
           --allow-unauthenticated
 
-# <-- options va **aquí**, al mismo nivel que steps, no dentro de steps
 options:
   logging: CLOUD_LOGGING_ONLY
-
